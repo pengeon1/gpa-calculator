@@ -1,22 +1,15 @@
-# backend/main.py
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from flask import Flask, request, jsonify
 
-app = FastAPI()
+app = Flask(__name__)
 
-@app.post("/calculate")
-async def calculate_gpa(data: Request):
-    body = await data.json()
-    courses = body.get("courses", [])
-    
-    total_credits = 0
-    weighted_score = 0
+@app.route('/api/calculate', methods=['POST'])
+def calculate_gpa():
+    data = request.get_json()
+    courses = data.get('courses', [])
+    total_credits = sum(course['credit'] for course in courses)
+    total_points = sum(course['credit'] * course['grade'] for course in courses)
+    gpa = total_points / total_credits if total_credits else 0
+    return jsonify({'gpa': round(gpa, 2)})
 
-    for course in courses:
-        credit = float(course.get("credit", 0))
-        grade = float(course.get("grade", 0))
-        total_credits += credit
-        weighted_score += credit * grade
-
-    gpa = weighted_score / total_credits if total_credits > 0 else 0
-    return JSONResponse({"gpa": round(gpa, 2)})
+if __name__ == '__main__':
+    app.run(debug=True)
