@@ -33,6 +33,6 @@ async def calculate_gpa(data: Request):
         grade = float(course.get("grade", 0))
         total_credits += credit
         weighted_score += credit * grade
-
+        print(weight_score,total_credits)
     gpa = weighted_score / total_credits if total_credits > 0 else 0
     return JSONResponse({"gpa": round(gpa, 4)})
