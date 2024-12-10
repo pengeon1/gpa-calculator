@@ -21,18 +21,34 @@ async def get_index():
     return HTMLResponse(content=content)
 
 @app.post("/calculate")
-async def calculate_gpa(data: Request):
-    body = await data.json()
-    courses = body.get("courses", [])
-    
-    total_credits = 0
-    weighted_score = 0
+async function calculateGPA() {
+    const rows = document.querySelectorAll("#courses-table tbody tr");
+    const courses = [];
 
-    for course in courses:
-        credit = float(course.get("credit", 0))
-        grade = float(course.get("grade", 0))
-        total_credits += credit
-        weighted_score += credit * grade
+    rows.forEach(row => {
+        const credit = row.querySelector("td:nth-child(1) input").value;
+        const grade = row.querySelector("td:nth-child(2) select").value;
 
-    gpa = weighted_score / total_credits if total_credits > 0 else 0
-    return JSONResponse({"gpa": round(gpa, 4)})
+        if (credit && grade) {
+            courses.push({ credit: parseFloat(credit), grade: parseFloat(grade) });
+        }
+    });
+
+    try {
+        const response = await fetch("https://gpa-calculator-seven-sigma.vercel.app/api/calculate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ courses })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        document.getElementById("gpa-result").textContent = `Your GPA is: ${result.gpa}`;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        document.getElementById("gpa-result").textContent = "An error occurred while calculating GPA.";
+    }
+}
