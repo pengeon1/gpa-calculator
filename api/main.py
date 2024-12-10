@@ -2,16 +2,6 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Replace "*" with your frontend's URL for security
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 
 app = FastAPI()
 app.add_middleware(
@@ -31,34 +21,18 @@ async def get_index():
     return HTMLResponse(content=content)
 
 @app.post("/calculate")
-async function calculateGPA() {
-    const rows = document.querySelectorAll("#courses-table tbody tr");
-    const courses = [];
+async def calculate_gpa(data: Request):
+    body = await data.json()
+    courses = body.get("courses", [])
+    
+    total_credits = 0
+    weighted_score = 0
 
-    rows.forEach(row => {
-        const credit = row.querySelector("td:nth-child(1) input").value;
-        const grade = row.querySelector("td:nth-child(2) select").value;
+    for course in courses:
+        credit = float(course.get("credit", 0))
+        grade = float(course.get("grade", 0))
+        total_credits += credit
+        weighted_score += credit * grade
 
-        if (credit && grade) {
-            courses.push({ credit: parseFloat(credit), grade: parseFloat(grade) });
-        }
-    });
-
-    try {
-        const response = await fetch("https://gpa-calculator-seven-sigma.vercel.app/api/calculate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ courses })
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        document.getElementById("gpa-result").textContent = `Your GPA is: ${result.gpa}`;
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        document.getElementById("gpa-result").textContent = "An error occurred while calculating GPA.";
-    }
-}
+    gpa = weighted_score / total_credits if total_credits > 0 else 0
+    return JSONResponse({"gpa": round(gpa, 4)})
