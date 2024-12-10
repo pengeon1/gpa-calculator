@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIITDM GPA Calculator</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --table-bg: #1e1e1e;
+            --input-bg: #2a2a2a;
+            --button-bg: #3e3e3e;
+            --button-hover-bg: #575757;
+            --border-color: #444;
+            --highlight-color: #00c853;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+            background-color: var(--table-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        input, select {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 5px;
+        }
+
+        .credit-input {
+            width: 60px;
+        }
+
+        select {
+            width: 100%;
+        }
+
+        button {
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--button-hover-bg);
+        }
+
+        button:active {
+            background-color: var(--highlight-color);
+        }
+
+        #gpa-result {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>IIITDM GPA Calculator</h1>
+    <table id="courses-table">
+        <thead>
+            <tr>
+                <th>Credits</th>
+                <th>Grade</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="number" step="0.5" min="0" placeholder="Credits" class="credit-input"></td>
+                <td>
+                    <select>
+                        <option value="10">S</option>
+                        <option value="9">A</option>
+                        <option value="8">B</option>
+                        <option value="7">C</option>
+                        <option value="6">D</option>
+                        <option value="4">E</option>
+                        <option value="0">U</option>
+                        <option value="0">W</option>
+                        <option value="0">I</option>
+                        <option value="0">H</option>
+                        <option value="0">L</option>
+                    </select>
+                </td>
+                <td><button onclick="removeRow(this)">Remove</button></td>
+            </tr>
+            <tr>
+                <td><input type="number" step="0.5" min="0" placeholder="Credits" class="credit-input"></td>
+                <td>
+                    <select>
+                        <option value="10">S</option>
+                        <option value="9">A</option>
+                        <option value="8">B</option>
+                        <option value="7">C</option>
+                        <option value="6">D</option>
+                        <option value="4">E</option>
+                        <option value="0">U</option>
+                        <option value="0">W</option>
+                        <option value="0">I</option>
+                        <option value="0">H</option>
+                        <option value="0">L</option>
+                    </select>
+                </td>
+                <td><button onclick="removeRow(this)">Remove</button></td>
+            </tr>
+            <tr>
+                <td><input type="number" step="0.5" min="0" placeholder="Credits" class="credit-input"></td>
+                <td>
+                    <select>
+                        <option value="10">S</option>
+                        <option value="9">A</option>
+                        <option value="8">B</option>
+                        <option value="7">C</option>
+                        <option value="6">D</option>
+                        <option value="4">E</option>
+                        <option value="0">U</option>
+                        <option value="0">W</option>
+                        <option value="0">I</option>
+                        <option value="0">H</option>
+                        <option value="0">L</option>
+                    </select>
+                </td>
+                <td><button onclick="removeRow(this)">Remove</button></td>
+            </tr>
+            <tr>
+                <td><input type="number" step="0.5" min="0" placeholder="Credits" class="credit-input"></td>
+                <td>
+                    <select>
+                        <option value="10">S</option>
+                        <option value="9">A</option>
+                        <option value="8">B</option>
+                        <option value="7">C</option>
+                        <option value="6">D</option>
+                        <option value="4">E</option>
+                        <option value="0">U</option>
+                        <option value="0">W</option>
+                        <option value="0">I</option>
+                        <option value="0">H</option>
+                        <option value="0">L</option>
+                    </select>
+                </td>
+                <td><button onclick="removeRow(this)">Remove</button></td>
+            </tr>
+            <tr>
+                <td><input type="number" step="0.5" min="0" placeholder="Credits" class="credit-input"></td>
+                <td>
+                    <select>
+                        <option value="10">S</option>
+                        <option value="9">A</option>
+                        <option value="8">B</option>
+                        <option value="7">C</option>
+                        <option value="6">D</option>
+                        <option value="4">E</option>
+                        <option value="0">U</option>
+                        <option value="0">W</option>
+                        <option value="0">I</option>
+                        <option value="0">H</option>
+                        <option value="0">L</option>
+                    </select>
+                </td>
+                <td><button onclick="removeRow(this)">Remove</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="addRow()">Add Course</button>
+    <button onclick="calculateGPA()">Calculate GPA</button>
+    <p id="gpa-result"></p>
+
+    <script>
+        function addRow() {
+            const table = document.getElementById("courses-table").querySelector("tbody");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><input type="number" step="0.5" min="0" placeholder="Credits" class="credit-input"></td>
+                <td>
+                    <select>
+                        <option value="10">S</option>
+                        <option value="9">A</option>
+                        <option value="8">B</option>
+                        <option value="7">C</option>
+                        <option value="6">D</option>
+                        <option value="4">E</option>
+                        <option value="0">U</option>
+                        <option value="0">W</option>
+                        <option value="0">I</option>
+                        <option value="0">H</option>
+                        <option value="0">L</option>
+                    </select>
+                </td>
+                <td><button onclick="removeRow(this)">Remove</button></td>
+            `;
+            table.appendChild(row);
+        }
+
+        function removeRow(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+        async function calculateGPA() {
+            const rows = document.querySelectorAll("#courses-table tbody tr");
+            const courses = [];
+
+            rows.forEach(row => {
+                const credit = row.querySelector("td:nth-child(1) input").value;
+                const grade = row.querySelector("td:nth-child(2) select").value;
+
+                if (credit && grade) {
+                    courses.push({ credit: parseFloat(credit), grade: parseFloat(grade) });
+                }
+            });
+
+            const response = await fetch("http://127.0.0.1:8000/calculate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ courses })
+            }); 
+
+
+            const result = await response.json();
+            document.getElementById("gpa-result").textContent = `Your GPA is: ${result.gpa}`;
+        }
+    </script>
+</body>
+</html>
