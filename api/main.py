@@ -1,7 +1,24 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/", response_class=HTMLResponse)
+async def get_index():
+    with open("static/index.html", "r") as file:
+        content = file.read()
+    return HTMLResponse(content=content)
 
 @app.post("/calculate")
 async def calculate_gpa(data: Request):
@@ -18,4 +35,4 @@ async def calculate_gpa(data: Request):
         weighted_score += credit * grade
 
     gpa = weighted_score / total_credits if total_credits > 0 else 0
-    return JSONResponse({"gpa": round(gpa, 2)})
+    return JSONResponse({"gpa": round(gpa, 4)})
