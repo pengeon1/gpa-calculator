@@ -20,7 +20,7 @@ async def get_index():
         content = file.read()
     return HTMLResponse(content=content)
 
-@app.post("/calculate")
+@app.post("/api/calculate")
 async def calculate_gpa(data: Request):
     body = await data.json()
     courses = body.get("courses", [])
