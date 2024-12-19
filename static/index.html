@@ -14,14 +14,14 @@
             --button-hover-bg: #575757;
             --highlight-color: #6c0cfe;
         }
-    
+
         body {
             font-family: Copperplate, Helvetica, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 20px;
         }
-    
+
         table {
             border-collapse: collapse;
             width: 100%;
@@ -31,23 +31,18 @@
             border-radius: 18px;
             overflow: hidden;
         }
-    
+
         th, td {
             padding: 15px;
-            padding-left: 0px;
-            padding-right: 0px;
             text-align: center;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
             border-bottom: 3px solid rgba(67, 67, 67, 0.2);
         }
-    
+
         th {
             background-color: var(--highlight-color);
             color: var(--text-color);
         }
-    
+
         input, select {
             background-color: var(--input-bg);
             color: var(--text-color);
@@ -55,11 +50,11 @@
             padding: 5px;
             border-radius: 8px;
         }
-    
+
         .credit-input {
             width: 45px;
         }
-    
+
         button {
             background-color: var(--button-bg);
             color: var(--text-color);
@@ -69,42 +64,56 @@
             transition: background-color 0.3s ease;
             border-radius: 18px;
         }
-    
+
         button:hover {
             background-color: var(--button-hover-bg);
         }
-    
+
         button:active {
             background-color: var(--highlight-color);
         }
-    
-        #gpa-result {
-            font-size: 1.2em;
-            margin-top: 10px;
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.805);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
 
-        a:link, a:visited {
+        .modal-content {
+            background-color: var(--table-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: var(--text-color);
+            width: 300px;
+        }
+
+        .modal-content h2 {
+            margin: 0;
+        }
+
+        .close {
             background-color: var(--button-bg);
             color: var(--text-color);
             border: none;
             padding: 10px 15px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 18px;
             cursor: pointer;
+            border-radius: 8px;
+            margin-top: 15px;
         }
 
-        a:hover, a:active {
+        .close:hover {
             background-color: var(--button-hover-bg);
-            color: var(--text-color)
         }
-        
-        p{
-            padding: 16 px;
-            margin-top: 1em;
-            margin-bottom: 1em;
-        }
-    </style>    
+    </style>
 </head>
 <body>
     <h1 style="padding: 10px">IIITDM Kancheepuram - GPA Calculator</h1>
@@ -223,6 +232,12 @@
     </table>
     <button onclick="addRow()">Add Course</button>
     <button onclick="calculateGPA()">Calculate GPA</button>
+    <div class="modal" id="gpaModal">
+        <div class="modal-content">
+            <h2 id="gpaMessage"></h2>
+            <button class="close" onclick="closeModal()">Close</button>
+        </div>
+    </div>
     <script>
         function addRow() {
             const table = document.getElementById("courses-table").querySelector("tbody");
@@ -282,7 +297,12 @@
 
             const result = await response.json();
 
-            alert(`Your GPA is: ${result.gpa}`);
+            document.getElementById("gpaMessage").textContent = `Your GPA is: ${result.gpa}`;
+            document.getElementById("gpaModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("gpaModal").style.display = "none";
         }
     </script>
 </body>
