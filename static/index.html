@@ -240,10 +240,6 @@
                         <option value="6">D</option>
                         <option value="4">E</option>
                         <option value="0">U</option>
-                        <option value="0">W</option>
-                        <option value="0">I</option>
-                        <option value="0">H</option>
-                        <option value="0">L</option>
                     </select>
                 </td>
                 <td><button onclick="removeRow(this)">Remove</button></td>
@@ -282,11 +278,11 @@
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ courses })
-            }); 
-
+            });
 
             const result = await response.json();
-            document.getElementById("gpa-result").textContent = `Your GPA is: ${result.gpa}`;
+
+            alert(`Your GPA is: ${result.gpa}`);
         }
     </script>
 </body>
